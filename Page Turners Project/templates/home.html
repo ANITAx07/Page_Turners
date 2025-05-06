@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Page Turners</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
+    <noscript>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/noscript.css') }}">
+    </noscript>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body class="is-preload">
+
+<div id="wrapper">
+    <!-- Header -->
+    <header id="header">
+        <div class="inner">
+            <!-- Logo -->
+            <a href="{{ url_for('home') }}" class="logo">
+                <span class="symbol"><img src="{{ url_for('static', filename='images/page_turners.png') }}" alt="Logo" /></span>
+                <span class="title">Page Turners</span>
+            </a>
+            <!-- Search Bar -->
+            <div class="search-wrapper">
+                <input type="text" id="search-bar" placeholder="Search by book or author..." />
+            </div>
+            
+            <!-- Theme Toggle Button -->
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <img id="theme-toggle"
+                    src="{{ url_for('static', filename='images/moon_icon.png') }}"
+                    alt="Toggle Theme"
+                    style="width: 30px; height: 30px; cursor: pointer;"
+                    >
+            </div> 
+            <!-- Nav -->
+            <nav>
+                <ul>
+                    <li><a href="#menu">Menu</a></li>
+                </ul>
+            </nav>
+           <!---- <a href="#menu" class="menuToggle"><span>Menu</span></a>   --> 
+        </div>
+    </header>
+
+    <!-- Menu -->
+    <nav id="menu">
+        <div class="inner">
+        <h2>Menu</h2>
+        <ul class="menu-list">
+             <li id="user-profile-link" style="display:none;"><a href="{{ url_for('user_dashboard') }}">User Profile</a></li>
+                <li id="register-link"><a href="{{ url_for('signup') }}">Register</a></li>
+                <li id="logout-link" style="display:none;"><a href="/logout">Logout</a></li>
+                <li id="admin-panel-link" style="display:none;"><a href="{{ url_for('admin_login') }}">Admin Panel</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle">Genre</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Fantasy</a></li>
+                        <li><a href="#">Self-Help</a></li>
+                        <li><a href="#">Romance</a></li>
+                        <li><a href="#">Thriller</a></li>
+                        <li><a href="#">Horror</a></li>
+                        <li><a href="#">Action</a></li>
+                    </ul>
+            </li>
+            <li><a href="{{ url_for('author') }}">Author</a></li>
+            
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            <li><a href="{{ url_for('admin_login') }}">Admin Panel</a></li>
+            <li id="logout-link" style="display:none;"><a href="/logout">Logout</a></li>
+
+        </ul>
+        </div>
+    </nav>
+
+    <!-- Main -->
+    <div id="main">
+        <div class="inner">
+            <header><br><br>
+                <h1>Discover the Top-Rated Book Collection</h1>
+                <p>Beneath the soft glow of a flickering lamp, the pages whispered their secrets, each word unraveling a world unknown, where ink became magic and stories wove themselves into the fabric of the soul</p>
+            </header>
+
+            <section class="tiles">
+                {% for book in books %}
+                <article class="style1">
+                    <span class="image">
+                        <img src="{{ book.cover_url }}" alt="{{ book.book_name }}" style="width:100%; height:auto; border-radius:10px;">
+                    </span>
+                    <div>
+                        <h2>{{ book.book_name }}</h2>  <!-- Used by search -->
+                        <p>{{ book.author }}</p>       <!-- Used by search -->
+                    </div>
+                    <div style="padding: 10px 0;">
+                        <h2 style="font-size: 1.2rem; color: #333;">{{ book.book_name }}</h2>
+                        <p>
+                            <!-- Star Rating -->
+                            {% set full_stars = book.rating|int %}
+                            {% set half_star = 1 if (book.rating - full_stars) >= 0.5 else 0 %}
+                            {% set empty_stars = 5 - full_stars - half_star %}
+                
+                            {% for _ in range(full_stars) %}
+                                <i class="fas fa-star" style="color: gold;"></i>
+                            {% endfor %}
+                            {% if half_star %}
+                                <i class="fas fa-star-half-alt" style="color: gold;"></i>
+                            {% endif %}
+                            {% for _ in range(empty_stars) %}
+                                <i class="far fa-star" style="color: gold;"></i>
+                            {% endfor %}
+                
+                            <span style="margin-left: 5px;">({{ book.rating }})</span>
+                        </p>
+                        <a href="{{ url_for('book_info', isbn=book.ISBN) }}" class="button small">View Details</a>
+                    </div>
+                </article>
+                {% endfor %}
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="inner">
+            <section>
+                <h2>Get in touch</h2>
+                <form method="post" action="#">
+                    <div class="fields">
+                        <div class="field half"><input type="text" name="name" placeholder="Name" /></div>
+                        <div class="field half"><input type="email" name="email" placeholder="Email" /></div>
+                        <div class="field"><textarea name="message" placeholder="Message"></textarea></div>
+                    </div>
+                    <ul class="actions">
+                        <li><input type="submit" value="Send" class="primary" /></li>
+                    </ul>
+                </form>
+            </section>
+
+            <section>
+                <h2>Follow</h2>
+                <ul class="icons">
+                    <li><a href="#" class="icon brands style2 fa-twitter"></a></li>
+                    <li><a href="#" class="icon brands style2 fa-facebook-f"></a></li>
+                    <li><a href="#" class="icon brands style2 fa-instagram"></a></li>
+                    <li><a href="#" class="icon brands style2 fa-github"></a></li>
+                    <li><a href="#" class="icon solid style2 fa-envelope"></a></li>
+                </ul>
+            </section>
+        </div>
+    </footer>
+</div>
+
+<!-- Scripts -->
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/browser.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/util.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sidebar-toggle.js') }}"></script>
+
+</body>
+</html>

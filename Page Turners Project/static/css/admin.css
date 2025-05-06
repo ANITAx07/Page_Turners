@@ -1,0 +1,144 @@
+/* Disable autofill yellow background and blue border */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+    box-shadow: 0 0 0px 1000px transparent inset !important;
+    caret-color: transparent;
+    color: transparent;
+}
+
+/* Remove chrome autofill suggestion dropdown */
+input::-webkit-contacts-auto-fill-button,
+input::-webkit-credentials-auto-fill-button {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+.sidebar input,
+.sidebar button {
+  display: none !important;
+  visibility: hidden !important;
+  position: absolute !important;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+}
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.login-container {
+    background: url("/static/images/admin_bg.png") no-repeat center center;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-box {
+    background-color: rgba(255, 255, 255, 0.92);
+    padding: 40px 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 350px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.login-box h2 {
+    margin: 0 0 20px;
+    font-size: 24px;
+    color: #222;
+}
+
+.login-box input[type="text"],
+.login-box input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.login-box input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background-color: #a5775e;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.login-box input[type="submit"]:hover {
+    background-color: #c78156;
+}
+
+.flash {
+    color: red;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* LOGO  */
+.logo-container {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.admin-logo {
+    max-width: 100px;
+    height: auto;
+    display: inline-block;
+    transition: transform 0.2s ease-in-out;
+}
+
+.admin-logo:hover {
+    transform: scale(1.05);
+}
+.logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo-container a img {
+    width: 100px;
+    height: auto;
+    border-radius: 10px;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 0 12px rgba(216, 112, 56, 0.5); /* warm brown-orange glow */
+    animation: pulse 2s infinite;
+    transition: transform 0.3s ease;
+}
+
+.logo-container a img:hover {
+    transform: scale(1.07);
+    box-shadow: 0 0 20px rgba(154, 67, 21, 0.7);
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 10px rgba(154, 67, 21, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(154, 67, 21, 0.8);
+    }
+    100% {
+        box-shadow: 0 0 10px rgba(154, 67, 21, 0.5);
+    }
+}
+

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ author.author_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/author.css') }}">
+</head>
+<body class="theme-light">
+    <div class="container" style="padding: 2em;">
+        <h1>{{ author.author_name }}</h1>
+        <img src="{{ url_for('static', filename=author.author_img) }}" width="250">
+        <p><strong>Publications:</strong> {{ author.publications }}</p>
+        <p><strong>Date of Birth:</strong> {{ author.date_of_birth }}</p>
+        <p><strong>Award:</strong> {{ author.award }}</p>
+        <p><strong>Famous Work:</strong> {{ author.famous_work }}</p>
+        <p><strong>Description:</strong><br>{{ author.description | safe }}</p>
+    </div>
+</body>
+</html>

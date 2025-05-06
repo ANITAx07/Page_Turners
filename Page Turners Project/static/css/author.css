@@ -1,0 +1,182 @@
+/* Body styling */
+body {
+    background-color: #fff;  /* Default to white for light mode */
+    color: #333;
+    transition: background-color 0.5s ease, color 0.5s ease;  /* Smooth transition for color changes */
+}
+
+body.dark-mode {
+    background-color: #333;  /* Dark mode background */
+    color: #fff;  /* Dark mode text color */
+}
+
+/* Light and Dark Theme Styling */
+/* Light Mode */
+body.theme-light {
+    background-color: #fff;
+    color: #333;
+}
+
+body.text-light {
+    color: #333; /* Text color for light mode */
+}
+
+/* Dark Mode */
+body.theme-dark {
+    background-color: #333;
+    color: #fff;
+}
+
+body.text-dark {
+    color: #fff; /* Text color for dark mode */
+}
+
+
+/* Header Styling */
+header {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.2rem;
+    color: #ccc;
+}
+
+/* Author Section */
+#main {
+    padding: 50px 20px;
+}
+
+.author-tiles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.author-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 280px;
+    text-align: center;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;  /* Ensure the elements are spaced correctly */
+}
+
+.author-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Image Styling */
+.author-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 2px solid #eee;
+}
+
+/* Author Info Section */
+.author-info {
+    padding: 15px;
+}
+
+.author-info h2 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+    overflow: hidden;  /* Prevent text overflow */
+    text-overflow: ellipsis; /* Add ellipsis for long text */
+}
+
+.author-info .button {
+    background-color: #fff;
+    color: #333;
+    font-weight: bold;
+    padding: 0px 20px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1rem;
+    margin-top: 10px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.author-info .button:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+/* Flexbox adjustments to ensure no overlapping */
+.author-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Card and Button Spacing */
+.author-card .author-info {
+    margin-top: 10px;
+}
+
+.author-info h2 {
+    margin-bottom: 15px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .author-tiles {
+        flex-direction: column;
+    }
+
+    .author-card {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    header h1 {
+        font-size: 2.5rem;
+    }
+}
+/* Button styling */
+.button {
+    background-color: #fff;
+    color: #333;
+    border: 2px solid #333;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button.dark-mode .button {
+    background-color: #333;
+    color: #fff;
+    border: 2px solid #fff;
+}
+
+/* Adjusting for cards and text */
+.author-card {
+    background-color: #fff;
+    color: #333;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.author-card.dark-mode {
+    background-color: #333;
+    color: #fff;
+}

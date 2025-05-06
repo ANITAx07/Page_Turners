@@ -1,0 +1,137 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Page Turners - Authors</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    
+    <!-- Link to CSS File -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/author.css') }}">  <!-- Link to author.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <noscript>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/noscript.css') }}">
+    </noscript>
+</head>
+<body class="is-preload">
+
+<div id="wrapper">
+    <!-- Header -->
+    <header id="header">
+        <div class="inner">
+            <a href="{{ url_for('home') }}" class="logo">
+                <span class="symbol"><img src="{{ url_for('static', filename='images/page_turners.png') }}" alt="Logo" /></span>
+                <span class="title">Page Turners</span>
+            </a>
+            <div class="search-wrapper">
+                <input type="text" id="search-bar" name="search" placeholder="Search by author..." value="{{ request.args.get('search', '') }}" />
+                
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <img id="theme-toggle" src="{{ url_for('static', filename='images/moon_icon.png') }}" alt="Toggle Theme" style="width: 30px; height: 30px; cursor: pointer;">
+            </div> 
+            <nav>
+                <ul>
+                    <li><a href="#menu">Menu</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Menu -->
+    <nav id="menu">
+        <div class="inner">
+            <h2>Menu</h2>
+            <ul class="menu-list">
+                <li><a href="{{ url_for('user_dashboard') }}">User Profile</a></li>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle">Genre</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Fantasy</a></li>
+                        <li><a href="#">Self-Help</a></li>
+                        <li><a href="#">Romance</a></li>
+                        <li><a href="#">Thriller</a></li>
+                        <li><a href="#">Horror</a></li>
+                        <li><a href="#">Action</a></li>
+                    </ul>
+                </li>
+                <li><a href="{{ url_for('signup') }}">Register</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('admin_login') }}">Admin Panel</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main -->
+    <div id="main">
+        <div class="inner">
+            <header><br><br>
+                <h1>Meet the Brilliant Authors</h1>
+                <p>Explore the lives and works of authors who have left an indelible mark on the literary world.</p>
+            </header>
+
+            <!-- Author Tiles -->
+            <section class="author-tiles">
+                {% if authors %}
+                    {% for author in authors %}
+                        <div class="author-card">
+                            <span class="image">
+                                <img src="{{ author['author_img'] }}" alt="{{ author['author_name'] }}" class="author-image">
+                            </span>
+                            <div class="author-info">
+                                <h2>{{ author['author_name'] }}</h2>
+                                <a href="{{ url_for('author_books', author_id=author['author_id']) }}" class="button small">View Details</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No authors found.</p>
+                {% endif %}
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="inner">
+            <section>
+                <h2>Get in touch</h2>
+                <form method="post" action="#">
+                    <div class="fields">
+                        <div class="field half"><input type="text" name="name" placeholder="Name" /></div>
+                        <div class="field half"><input type="email" name="email" placeholder="Email" /></div>
+                        <div class="field"><textarea name="message" placeholder="Message"></textarea></div>
+                    </div>
+                    <ul class="actions">
+                        <li><input type="submit" value="Send" class="primary" /></li>
+                    </ul>
+                </form>
+            </section>
+
+            <section>
+                <h2>Follow</h2>
+                <ul class="icons">
+                    <li><a href="#" class="icon brands style2 fa-twitter"></a></li>
+                    <li><a href="#" class="icon brands style2 fa-facebook-f"></a></li>
+                    <li><a href="#" class="icon brands style2 fa-instagram"></a></li>
+                    <li><a href="#" class="icon brands style2 fa-github"></a></li>
+                    <li><a href="#" class="icon solid style2 fa-envelope"></a></li>
+                </ul>
+            </section>
+        </div>
+    </footer>
+</div>
+
+<!-- Scripts -->
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/browser.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/util.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
+
+</body>
+</html>

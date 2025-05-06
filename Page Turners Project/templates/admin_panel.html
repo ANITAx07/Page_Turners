@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - Page Turners</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_dash.css') }}">
+    <style>
+        .tab-section { display: none; }
+    </style>
+</head>
+<body>
+  <div class="admin-container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-container">
+          <img src="{{ url_for('static', filename='images/page_turners.png') }}" alt="Logo">
+          <h2>Admin</h2>
+        </div>
+        <ul class="nav-links">
+          <li><a href="#add-book">Add Books</a></li>
+          <li><a href="#restock">Restock</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="{{ url_for('admin_logout') }}">Logout</a></li>
+        </ul>
+      </div>
+      
+      
+      
+
+    <!-- Main content -->
+    <main class="admin-content">
+      <h1>📚 Admin Panel</h1>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+              {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+              {% endfor %}
+            </ul>
+        {% endif %}
+      {% endwith %}
+
+      <!-- ✅ Add Book Section -->
+      <section id="add-books" class="tab-section">
+          <h2>Add New Book</h2>
+          <form action="/admin/add_book" method="POST">
+              <input type="text" name="isbn" placeholder="ISBN" required>
+              <input type="text" name="name" placeholder="Book Name" required>
+              <textarea name="desc" placeholder="Description" required></textarea>
+              <input type="text" name="cover_url" placeholder="Cover Image URL" required>
+              <input type="text" name="language" placeholder="Language" required>
+              <input type="number" step="0.1" name="rating" placeholder="Rating (0-5)">
+              <input type="number" name="stock" placeholder="Initial Stock">
+              <input type="number" step="0.01" name="price" placeholder="Price">
+              <input type="text" name="tags" placeholder="Genre">
+              <button type="submit">➕ Add Book</button>
+          </form>
+      </section>
+
+
+      <!-- ✅ Restock Section -->
+      <section id="restock" class="tab-section">
+        <h2>Restock Books</h2>
+        {% if books %}
+          <form action="/admin/restock" method="POST" style="max-width: 500px;">
+            <label for="isbn">Select Book:</label>
+            <select name="isbn" id="isbn" required>
+              {% for book in books %}
+                <option value="{{ book['ISBN'] }}">{{ book['book_name'] }} (Stock: {{ book['stock'] }})</option>
+              {% endfor %}
+            </select>
+      
+            <label for="quantity">Change Quantity:</label>
+            <input type="number" name="quantity" placeholder="e.g. 5 or -3" required>
+      
+            <button type="submit">Update Stock</button>
+          </form>
+        {% else %}
+          <p>No books found in the inventory.</p>
+        {% endif %}
+      </section>
+      
+
+
+
+
+
+
+
+      <!-- ✅ Reviews Section -->
+      <section id="reviews" class="tab-section">
+          <h2>User Reviews</h2>
+          {% if reviews %}
+          <ul>
+              {% for review in reviews %}
+              <li>
+                  <p><strong>Book:</strong> {{ review.book_isbn }} | <strong>User:</strong> {{ review.user_id }}</p>
+                  <p>{{ review.content }}</p>
+                  <a href="/admin/delete_review/{{ review.review_id }}" onclick="return confirm('Delete this review?')">❌ Delete</a>
+              </li>
+              {% endfor %}
+          </ul>
+          {% else %}
+          <p>No reviews found.</p>
+          {% endif %}
+      </section>
+    </main>
+  </div>
+
+  <!-- ✅ JavaScript to toggle sections -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const navLinks = document.querySelectorAll('.nav-links a');
+      const sections = document.querySelectorAll('.tab-section');
+  
+      function showSection(id) {
+        sections.forEach(section => {
+          section.style.display = section.id === id ? 'block' : 'none';
+        });
+      }
+  
+      // ✅ Detect initial hash (e.g., #restock or #add-books)
+      const initialHash = window.location.hash.substring(1);
+      const defaultTab = initialHash || 'add-books'; // fallback if no hash
+      showSection(defaultTab);
+  
+      // ✅ Click event to toggle tabs
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href.startsWith('#')) {
+          link.addEventListener('click', e => {
+            e.preventDefault();
+            const targetId = href.substring(1);
+            showSection(targetId);
+  
+            // ✅ Update URL hash without reloading
+            history.replaceState(null, null, '#' + targetId);
+          });
+        }
+      });
+    });
+  </script>
+  
+</body>
+</html>

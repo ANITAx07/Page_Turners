@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signup - Page Turners</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body, html {
+      height: 100%;
+    }
+
+    body {
+      background: url("static/images/bookshelf_bg.jpg") no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      display: flex;
+      background-color: #0f1c2e;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .left-section {
+      background-color: rgb(112, 73, 49);
+      color: white;
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .left-section a {
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    .logo-img {
+      width: 200px;
+      border-radius: 10px;
+      animation: pulse 2s infinite;
+      box-shadow: 0 0 20px rgba(255, 191, 130, 0.7);
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 191, 130, 0.6); }
+      50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 191, 130, 1); }
+      100% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 191, 130, 0.6); }
+    }
+
+    .left-section h2 {
+      font-size: 22px;
+      color: #fff;
+    }
+
+    .right-section {
+      background-color: #fff;
+      flex: 1;
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .right-section h1 {
+      color:rgb(209, 89, 48);
+      margin-bottom: 10px;
+    }
+
+    .right-section p {
+      margin-bottom: 10px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .flashes li {
+      list-style: none;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .flashes .success {
+      color: green;
+    }
+
+    .flashes .error {
+      color: red;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px 20px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    .checkbox {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      grid-column: span 2;
+    }
+
+    .checkbox input {
+      margin-right: 10px;
+    }
+
+    .checkbox a {
+      color:rgb(162, 85, 34);
+      text-decoration: none;
+    }
+
+    .signup-btn {
+      grid-column: span 2;
+      background-color:rgb(209, 94, 41);
+      border: none;
+      padding: 12px;
+      color: white;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .signup-btn:disabled {
+      background-color:rgba(222, 138, 99, 0.4);
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      form {
+        grid-template-columns: 1fr;
+      }
+      .signup-btn, .checkbox {
+        grid-column: span 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="left-section">
+      <a href="/">
+        <img src="{{ url_for('static', filename='images/page_turners.png') }}" alt="Logo" class="logo-img">
+      </a>
+      <h2>Let’s Make it Happen Together!</h2>
+    </div>
+    <div class="right-section">
+      <h1>Create An Account</h1>
+      <p>Already have an account? <a href="/login" style="color:#3e75c2; text-decoration: none;">Sign in here!</a></p>
+
+      <!-- ✅ Flash message block -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flashes">
+            {% for category, message in messages %}
+              <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+
+      <form id="signupForm" method="POST" action="/signup">
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Create Password" required>
+
+        <div class="checkbox">
+          <input type="checkbox" id="termsCheckbox" required>
+          <label for="termsCheckbox">Creating your account means you accept our <a href="#">Terms & Conditions</a>.</label>
+        </div>
+
+        <button type="submit" class="signup-btn" id="submitBtn" disabled>Create Account</button>
+        <button type="button" class="signup-btn" style="background-color: #ccc; color: #0f1c2e;" onclick="window.location.href='/'">Back</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('signupForm');
+      const name = form.elements['name'];
+      const email = form.elements['email'];
+      const password = form.elements['password'];
+      const checkbox = document.getElementById('termsCheckbox');
+      const submitBtn = document.getElementById('submitBtn');
+
+      const validateForm = () => {
+        const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
+        const isNameFilled = name.value.trim().length > 0;
+        const isPasswordFilled = password.value.trim().length > 0;
+        const isChecked = checkbox.checked;
+        submitBtn.disabled = !(isValidEmail && isNameFilled && isPasswordFilled && isChecked);
+      };
+
+      name.addEventListener('input', () => {
+        if (name.value.length > 0) {
+          name.value = name.value.charAt(0).toUpperCase() + name.value.slice(1);
+        }
+        validateForm();
+      });
+
+      [email, password].forEach(input => input.addEventListener('input', validateForm));
+      checkbox.addEventListener('change', validateForm);
+    });
+  </script>
+</body>
+</html>
